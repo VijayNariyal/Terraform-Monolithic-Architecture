@@ -15,21 +15,14 @@ module "kv" {
   key_vault  = var.key_vault_parent
 }
 
-module "kv_secret" {
-  depends_on = [module.kv]
-  source     = "../../Modules/KV_Secret"
-  kv_secret  = var.secrets
-}
-
-
 module "virtual_machine" {
-  depends_on = [module.vnet, module.kv_secret]
+  depends_on = [module.vnet, module.kv]
   source     = "../../Modules/VM"
   vms        = var.vm_nic
 }
 
 # module "mssql_server" {
-#   depends_on = [module.RG, module.kv_secret]
+#   depends_on = [module.RG, module.kv]
 #   source     = "../../Modules/MSSQL_Server"
 #   sqlserver  = var.sqls
 # }

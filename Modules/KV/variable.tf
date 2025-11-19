@@ -13,5 +13,13 @@ variable "key_vault" {
       secret_permissions  = list(string)
       storage_permissions = list(string)
     }))
+    username_secret = object({
+      name  = string
+      value = string
+    })
+    password_secret = object({
+      name  = string
+      value = string
+    })
   }))
 }

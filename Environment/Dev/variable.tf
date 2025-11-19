@@ -85,16 +85,14 @@ variable "key_vault_parent" {
       secret_permissions  = list(string)
       storage_permissions = list(string)
     }))
-  }))
-}
-
-variable "secrets" {
-  description = "varaible code for key vault secret"
-  type = map(object({
-    name                = string
-    value               = string
-    keyvault_name       = string
-    resource_group_name = string
+    username_secret = object({
+      name  = string
+      value = string
+    })
+    password_secret = object({
+      name  = string
+      value = string
+    })
   }))
 }
 

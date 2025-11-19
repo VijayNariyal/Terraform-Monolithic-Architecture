@@ -60,3 +60,8 @@ resource "azurerm_linux_virtual_machine" "linux-vm" {
     version   = each.value.version
   }
 }
+
+resource "azurerm_network_interface_security_group_association" "nsgnic" {
+  network_interface_id = azurerm_network_interface.nic[each.key].id
+  network_security_group_id = azurerm_network_security_group.nsg[each.key].id
+}
