@@ -50,3 +50,14 @@ module "stg_account" {
   source          = "../../Modules/STG"
   storage_account = var.stg
 }
+
+module "loadbalancer" {
+  depends_on    = [module.virtual_machine, module.pip]
+  source        = "../../Modules/LB"
+  load_balancer = var.lb
+}
+
+module "lb-nic-association" {
+  depends_on = [module.loadbalancer]
+  source     = "../../Modules/LB-NIC-Association"
+}

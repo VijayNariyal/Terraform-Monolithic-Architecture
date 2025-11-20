@@ -22,6 +22,7 @@ resource "azurerm_key_vault" "kv" {
 }
 
 resource "azurerm_key_vault_secret" "username_secret" {
+  depends_on = [ azurerm_key_vault.kv ]
   for_each     = var.key_vault
   name         = each.value.username_secret.name
   value        = each.value.username_secret.value
@@ -29,6 +30,7 @@ resource "azurerm_key_vault_secret" "username_secret" {
 }
 
 resource "azurerm_key_vault_secret" "password_secret" {
+    depends_on = [ azurerm_key_vault.kv ]
   for_each     = var.key_vault
   name         = each.value.password_secret.name
   value        = each.value.password_secret.value
