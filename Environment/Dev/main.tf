@@ -40,7 +40,7 @@ module "pip" {
 }
 
 module "bastion" {
-  depends_on   = [module.vnet, module.pip]
+  depends_on   = [module.vnet, module.pip, module.virtual_machine]
   source       = "../../Modules/Bastion"
   bastion_host = var.bastion
 }
