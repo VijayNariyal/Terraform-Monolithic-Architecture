@@ -110,7 +110,7 @@ vm_nic = {
 
 key_vault_parent = {
   "kv1" = {
-    keyvault_name       = "tfkv9900"
+    keyvault_name       = "keyVaultName"
     location            = "central india"
     resource_group_name = "TF-RG"
     sku_name            = "standard"
@@ -121,11 +121,11 @@ key_vault_parent = {
     }]
     username_secret = {
       name  = "username"
-      value = "azureuser"
+      value = "Your-Username"
     }
     password_secret = {
       name  = "password"
-      value = "P@ssw0rd@1234"
+      value = "Your-Password"
     }
   }
 }
@@ -147,7 +147,7 @@ mssql_db = {
     mssql_database_name = "my_db"
     collation           = "SQL_Latin1_General_CP1_CI_AS"
     license_type        = "LicenseIncluded"
-    mssql_server_name   = "tfmssqlserver9900"
+    mssql_server_name   = "Your-MSSQL-Server-Name"
     resource_group_name = "TF-RG"
   }
 }
