@@ -35,6 +35,8 @@ resource "azurerm_lb_rule" "lbrule" {
   backend_port    = each.value.backend_port
   frontend_ip_configuration_name = "PublicIPAddress"
   disable_outbound_snat = true
+  backend_address_pool_ids       = azurerm_lb_backend_address_pool.lbbackend[each.key].id
+  probe_id                       = azurerm_lb_probe.lbprobe[each.key].id
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "association" {
