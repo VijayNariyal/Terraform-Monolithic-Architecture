@@ -85,16 +85,14 @@ variable "key_vault_parent" {
       secret_permissions  = list(string)
       storage_permissions = list(string)
     }))
-  }))
-}
-
-variable "secrets" {
-  description = "varaible code for key vault secret"
-  type = map(object({
-    name                = string
-    value               = string
-    keyvault_name       = string
-    resource_group_name = string
+    username_secret = object({
+      name  = string
+      value = string
+    })
+    password_secret = object({
+      name  = string
+      value = string
+    })
   }))
 }
 
@@ -160,5 +158,23 @@ variable "stg" {
     })))
     container_name        = string
     container_access_type = string
+  }))
+}
+
+variable "lb" {
+  description = "this is load balancer variable file"
+  type = map(object({
+    lb_name             = string
+    location            = string
+    resource_group_name = string
+    pip_name            = string
+    frontend_ip_configuration = list(object({
+      frontend_name = string
+    }))
+    lbbackend_name = string
+    lbrule_name    = string
+    protocol       = string
+    frontend_port  = number
+    backend_port   = number
   }))
 }

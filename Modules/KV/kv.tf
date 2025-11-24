@@ -19,5 +19,20 @@ resource "azurerm_key_vault" "kv" {
       storage_permissions = access_policy.value.storage_permissions
     }
   }
+}
 
+resource "azurerm_key_vault_secret" "username_secret" {
+  depends_on = [ azurerm_key_vault.kv ]
+  for_each     = var.key_vault
+  name         = each.value.username_secret.name
+  value        = each.value.username_secret.value
+  key_vault_id = azurerm_key_vault.kv[each.key].id
+}
+
+resource "azurerm_key_vault_secret" "password_secret" {
+    depends_on = [ azurerm_key_vault.kv ]
+  for_each     = var.key_vault
+  name         = each.value.password_secret.name
+  value        = each.value.password_secret.value
+  key_vault_id = azurerm_key_vault.kv[each.key].id
 }

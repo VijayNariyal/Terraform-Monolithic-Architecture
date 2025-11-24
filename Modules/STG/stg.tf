@@ -1,6 +1,6 @@
 resource "azurerm_storage_account" "stg" {
   for_each                 = var.storage_account
-  name                     = lookup(each.value, "storage_account_name", lower(replace(each.key, "/[^a-z0-9]/", "")))
+  name                     = each.value.storage_account_name
   resource_group_name      = each.value.resource_group_name
   location                 = each.value.location
   account_tier             = lookup(each.value, "account_tier", "Standard")
@@ -9,11 +9,11 @@ resource "azurerm_storage_account" "stg" {
   tags                     = each.value.tags == {} ? { environment = "dev" } : each.value.tags
 
   dynamic "network_rules" {
-    for_each = lookup(each.value, "network_rules", []) == [] ? [] : [1]
+    for_each = lookup(each.value, "network_rules", null) == null ? [] : [lookup(each.value, "network_rules")]
     content {
-      default_action             = lookup(each.value, "network_rules", {})["default_action"]
-      virtual_network_subnet_ids = lookup(each.value, "network_rules", {})["virtual_network_subnet_ids"]
-      ip_rules                   = lookup(each.value, "network_rules", {})["ip_rules"]
+      default_action             = lookup(network_rules.value, "network_rules", "Deny")
+      virtual_network_subnet_ids = lookup(network_rules.value, "network_rules", [])
+      ip_rules                   = lookup(network_rules.value, "network_rules", [])
     }
   }
 }
