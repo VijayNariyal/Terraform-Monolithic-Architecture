@@ -1,6 +1,6 @@
 rgs = {
   rg1 = {
-    name     = "TF-RG"
+    name     = "TF-Dev-RG"
     location = "central india"
     # managed_by = "vijay"
   }
@@ -8,9 +8,9 @@ rgs = {
 
 vnets = {
   vnet1 = {
-    virtual_network_name = "TF-Vnet"
+    virtual_network_name = "TF-Dev-Vnet"
     location             = "central india"
-    resource_group_name  = "TF-RG"
+    resource_group_name  = "TF-Dev-RG"
     # address_space        = ["10.0.0.0/16"]
 
     subnets = {
@@ -33,25 +33,25 @@ vnets = {
 pip = {
   # pip1 = {
   #   name                = "Frontend-pip"
-  #   resource_group_name = "TF-RG"
+  #   resource_group_name = "TF-Dev-RG"
   #   location            = "central india"
   #   allocation_method   = "Static"
   # }
   # pip2 = {
   #   name                = "Backend-pip"
-  #   resource_group_name = "TF-RG"
+  #   resource_group_name = "TF-Dev-RG"
   #   location            = "central india"
   #   allocation_method   = "Static"
   # }
   pip3 = {
-    name                = "Bastion-pip"
-    resource_group_name = "TF-RG"
+    name                = "Dev-Bastion-pip"
+    resource_group_name = "TF-Dev-RG"
     location            = "central india"
     allocation_method   = "Static"
   }
     pip4 = {
-    name                = "LB-pip"
-    resource_group_name = "TF-RG"
+    name                = "Dev-LB-pip"
+    resource_group_name = "TF-Dev-RG"
     location            = "central india"
     allocation_method   = "Static"
   }
@@ -67,17 +67,17 @@ vm_nic = {
         private_ip_address_allocation = "Dynamic"
     } }
     subnet_name          = "Frontend-subnet"
-    virtual_network_name = "TF-Vnet"
-    resource_group_name  = "TF-RG"
+    virtual_network_name = "TF-Dev-Vnet"
+    resource_group_name  = "TF-Dev-RG"
     # pip_name                        = "Frontend-pip"
-    vm_name                         = "Frontend-VM"
+    vm_name                         = "Dev-Frontend-VM"
     size                            = "Standard_F2"
     disable_password_authentication = false
     publisher                       = "Canonical"
     offer                           = "0001-com-ubuntu-server-jammy"
     sku                             = "22_04-lts"
     version                         = "latest"
-    kv_name                         = "tfkv9900"
+    kv_name                         = "Dev_tfkv9900"
     secret_name_username            = "username"
     secret_name_password            = "password"
     nsg_name                        = "Frontend-nsg"
@@ -91,17 +91,17 @@ vm_nic = {
         private_ip_address_allocation = "Dynamic"
     } }
     subnet_name          = "Backend-subnet"
-    virtual_network_name = "TF-Vnet"
-    resource_group_name  = "TF-RG"
+    virtual_network_name = "TF-Dev-Vnet"
+    resource_group_name  = "TF-Dev-RG"
     # pip_name                        = "Backend-pip"
-    vm_name                         = "Backend-VM"
+    vm_name                         = "Dev-Backend-VM"
     size                            = "Standard_F2"
     disable_password_authentication = false
     publisher                       = "Canonical"
     offer                           = "0001-com-ubuntu-server-jammy"
     sku                             = "22_04-lts"
     version                         = "latest"
-    kv_name                         = "tfkv9900"
+    kv_name                         = "Dev_tfkv9900"
     secret_name_username            = "username"
     secret_name_password            = "password"
     nsg_name                        = "Backend-nsg"
@@ -110,9 +110,9 @@ vm_nic = {
 
 key_vault_parent = {
   "kv1" = {
-    keyvault_name       = "tfkv9900"
+    keyvault_name       = "Dev-tfkv9900"
     location            = "central india"
-    resource_group_name = "TF-RG"
+    resource_group_name = "TF-Dev-RG"
     sku_name            = "standard"
     access_policy = [{
       key_permissions     = ["Get", ]
@@ -132,11 +132,11 @@ key_vault_parent = {
 
 sqls = {
   "sql1" = {
-    sql_server_name      = "tfmssqlserver9900"
-    resource_group_name  = "TF-RG"
+    sql_server_name      = "Dev_tfmssqlserver9900"
+    resource_group_name  = "TF-Dev-RG"
     location             = "central india"
     version              = "12.0"
-    kv_name              = "tfkv9900"
+    kv_name              = "Dev_tfkv9900"
     secret_name_username = "username"
     secret_name_password = "password"
   }
@@ -147,20 +147,20 @@ mssql_db = {
     mssql_database_name = "my_db"
     collation           = "SQL_Latin1_General_CP1_CI_AS"
     license_type        = "LicenseIncluded"
-    mssql_server_name   = "tfmssqlserver9900"
-    resource_group_name = "TF-RG"
+    mssql_server_name   = "Dev_tfmssqlserver9900"
+    resource_group_name = "TF-Dev-RG"
   }
 }
 
 
 bastion = {
   bastion1 = {
-    bastion_name         = "vm_bastion"
+    bastion_name         = "Dev_vm_bastion"
     location             = "central india"
-    resource_group_name  = "TF-RG"
+    resource_group_name  = "TF-Dev-RG"
     subnet_name          = "AzureBastionSubnet"
-    virtual_network_name = "TF-Vnet"
-    pip_name             = "Bastion-pip"
+    virtual_network_name = "TF-Dev-Vnet"
+    pip_name             = "Dev-Bastion-pip"
     ip_configuration = {
       conf1 = {
         ip_configuration_name = "configuration"
@@ -171,8 +171,8 @@ bastion = {
 
 stg = {
   stg1 = {
-    storage_account_name  = "azstg19910"
-    resource_group_name   = "TF-RG"
+    storage_account_name  = "devazstg19910"
+    resource_group_name   = "TF-Dev-RG"
     location              = "central india"
     account_tier          = "Standard"
     container_name        = "stg-container"
@@ -182,10 +182,10 @@ stg = {
 
 lb = {
   "lb1" = {
-    lb_name             = "TF-LB"
+    lb_name             = "Dev-TF-LB"
     location            = "central india"
-    resource_group_name = "TF-RG"
-    pip_name            = "LB-pip"
+    resource_group_name = "TF-Dev-RG"
+    pip_name            = "Dev-LB-pip"
     frontend_ip_configuration = [{
       frontend_name = "PublicIPAddress"
     }]

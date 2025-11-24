@@ -27,14 +27,16 @@ resource "azurerm_lb_probe" "lbprobe" {
 }
 
 resource "azurerm_lb_rule" "lbrule" {
-  for_each        = var.load_balancer
-  loadbalancer_id = azurerm_lb.loadbalancer[each.key].id
-  name            = each.value.lbrule_name
-  protocol        = each.value.protocol
-  frontend_port   = each.value.frontend_port
-  backend_port    = each.value.backend_port
+  for_each                       = var.load_balancer
+  loadbalancer_id                = azurerm_lb.loadbalancer[each.key].id
+  name                           = each.value.lbrule_name
+  protocol                       = each.value.protocol
+  frontend_port                  = each.value.frontend_port
+  backend_port                   = each.value.backend_port
   frontend_ip_configuration_name = "PublicIPAddress"
-  disable_outbound_snat = true
+  disable_outbound_snat          = true
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.lbbackend[each.key].id]
+  probe_id                       = azurerm_lb_probe.lbprobe[each.key].id
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "association" {
