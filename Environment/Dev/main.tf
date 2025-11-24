@@ -57,7 +57,7 @@ module "loadbalancer" {
   load_balancer = var.lb
 }
 
-module "lb-nic-association" {
-  depends_on = [module.loadbalancer]
-  source     = "../../Modules/LB-NIC-Association"
-}
+# module "lb-nic-association" {
+#   depends_on = [module.loadbalancer]
+#   source     = "../../Modules/LB-NIC-Association"
+# }
