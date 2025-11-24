@@ -176,5 +176,6 @@ variable "lb" {
     protocol       = string
     frontend_port  = number
     backend_port   = number
+    lb_outbound_rule = string
   }))
 }

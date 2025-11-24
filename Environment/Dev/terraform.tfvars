@@ -189,10 +189,11 @@ lb = {
     frontend_ip_configuration = [{
       frontend_name = "PublicIPAddress"
     }]
-    lbbackend_name = "backend pool"
+    lbbackend_name = "backendpool"
     lbrule_name    = "HttpAllow"
     protocol       = "Tcp"
     frontend_port  = 8080
     backend_port   = 80
+    lb_outbound_rule = "OutboundRule"
   }
 }
