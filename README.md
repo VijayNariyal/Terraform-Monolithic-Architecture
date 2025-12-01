@@ -4,6 +4,14 @@ This repository contains Terraform code to deploy a **Monolithic Todo Applicatio
 
 ---
 
+## ✅ Notes
+
+✅ The **Dev** and **Prod** environments share the same module structure
+✅ Only **tfvars values differ** between environments
+✅ Please replace the placeholder in Environments folder for both and add value accordingly.
+
+---
+
 ## ✅ Architecture Overview
 
 ### **1. Presentation Tier**
@@ -171,15 +179,6 @@ Example:
 ```
 prod-vm-01
 dev-kv-01
-```
-
----
-
-## ✅ Notes
-
-✅ The **Dev** and **Prod** environments share the same module structure
-✅ Only **tfvars values differ** between environments
-✅ This keeps deployments consistent and repeatable
 
 ---
 

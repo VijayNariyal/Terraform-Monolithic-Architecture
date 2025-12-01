@@ -77,7 +77,7 @@ vm_nic = {
     offer                           = "0001-com-ubuntu-server-jammy"
     sku                             = "22_04-lts"
     version                         = "latest"
-    kv_name                         = "Dev-tfkv9900"
+    kv_name                         = "keyVaultName"
     secret_name_username            = "username"
     secret_name_password            = "password"
     nsg_name                        = "Frontend-nsg"
@@ -102,7 +102,7 @@ vm_nic = {
     offer                           = "0001-com-ubuntu-server-jammy"
     sku                             = "22_04-lts"
     version                         = "latest"
-    kv_name                         = "Dev-tfkv9900"
+    kv_name                         = "keyVaultName"
     secret_name_username            = "username"
     secret_name_password            = "password"
     nsg_name                        = "Backend-nsg"
@@ -111,7 +111,7 @@ vm_nic = {
 
 key_vault_parent = {
   "kv1" = {
-    keyvault_name       = "Dev-tfkv9900"
+    keyvault_name       = "keyVaultName"
     location            = "central india"
     resource_group_name = "TF-Dev-RG"
     sku_name            = "standard"
@@ -122,22 +122,22 @@ key_vault_parent = {
     }]
     username_secret = {
       name  = "username"
-      value = "azureuser"
+      value = "Your-Username"
     }
     password_secret = {
       name  = "password"
-      value = "P@ssw0rd@1234"
+      value = "Your-Password"
     }
   }
 }
 
 sqls = {
   "sql1" = {
-    sql_server_name      = "Dev_tfmssqlserver9900"
+    sql_server_name      = "Your-MSSQL-Server-Name"
     resource_group_name  = "TF-Dev-RG"
     location             = "central india"
     version              = "12.0"
-    kv_name              = "Dev-tfkv9900"
+    kv_name              = "keyVaultName"
     secret_name_username = "username"
     secret_name_password = "password"
   }
@@ -148,8 +148,8 @@ mssql_db = {
     mssql_database_name = "my_db"
     collation           = "SQL_Latin1_General_CP1_CI_AS"
     license_type        = "LicenseIncluded"
-    mssql_server_name   = "Dev_tfmssqlserver9900"
-    resource_group_name = "TF-Dev-RG"
+    mssql_server_name   = "Your-MSSQL-Server-Name"
+    resource_group_name = "TF-RG"
   }
 }
 
@@ -172,7 +172,7 @@ bastion = {
 
 stg = {
   stg1 = {
-    storage_account_name  = "devazstg19910"
+    storage_account_name  = "STORAGE-ACCOUNT-NAME"
     resource_group_name   = "TF-Dev-RG"
     location              = "central india"
     account_tier          = "Standard"
