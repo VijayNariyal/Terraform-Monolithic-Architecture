@@ -77,10 +77,11 @@ vm_nic = {
     offer                           = "0001-com-ubuntu-server-jammy"
     sku                             = "22_04-lts"
     version                         = "latest"
-    kv_name                         = "Dev_tfkv9900"
+    kv_name                         = "Dev-tfkv9900"
     secret_name_username            = "username"
     secret_name_password            = "password"
     nsg_name                        = "Frontend-nsg"
+    custom_script_file              = "../../Modules/VM/script.sh"
   }
   vm_nic2 = {
     nic_name = "Backend-nic"
@@ -101,7 +102,7 @@ vm_nic = {
     offer                           = "0001-com-ubuntu-server-jammy"
     sku                             = "22_04-lts"
     version                         = "latest"
-    kv_name                         = "Dev_tfkv9900"
+    kv_name                         = "Dev-tfkv9900"
     secret_name_username            = "username"
     secret_name_password            = "password"
     nsg_name                        = "Backend-nsg"
@@ -136,7 +137,7 @@ sqls = {
     resource_group_name  = "TF-Dev-RG"
     location             = "central india"
     version              = "12.0"
-    kv_name              = "Dev_tfkv9900"
+    kv_name              = "Dev-tfkv9900"
     secret_name_username = "username"
     secret_name_password = "password"
   }
@@ -195,5 +196,6 @@ lb = {
     frontend_port  = 8080
     backend_port   = 80
     lb_outbound_rule = "OutboundRule"
+    nic_name       = "Frontend-nic"
   }
 }

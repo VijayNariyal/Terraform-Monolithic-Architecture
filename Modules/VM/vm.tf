@@ -59,6 +59,7 @@ resource "azurerm_linux_virtual_machine" "linux-vm" {
     sku       = each.value.sku
     version   = each.value.version
   }
+  custom_data = each.value.custom_script_file != null? base64encode(file(each.value.custom_script_file)) : null
 }
 
 resource "azurerm_network_interface_security_group_association" "nsgnic" {

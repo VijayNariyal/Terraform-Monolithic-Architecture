@@ -67,6 +67,7 @@ variable "vm_nic" {
     secret_name_username            = string
     secret_name_password            = string
     nsg_name                        = string
+    custom_script_file              = optional(string)
   }))
 }
 
@@ -177,5 +178,6 @@ variable "lb" {
     frontend_port  = number
     backend_port   = number
     lb_outbound_rule = string
+    nic_name       = string
   }))
 }
