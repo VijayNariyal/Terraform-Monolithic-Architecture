@@ -22,5 +22,6 @@ variable "vms" {
     secret_name_username            = string
     secret_name_password            = string
     nsg_name                        = string
+    custom_script_file              = optional(string)
   }))
 }
