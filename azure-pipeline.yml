@@ -1,0 +1,123 @@
+trigger: none
+
+pool: infrapool
+
+variables:
+  workDir: '$(System.DefaultWorkingDirectory)/Environment/Dev'
+  azureConnection: 'azureInfra'
+
+stages:
+  - stage: TerraformTask
+    jobs:
+      - job: PowershellScript1
+        displayName: 'Powershell script'
+        steps:
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'Write-Host "Hello World"'
+
+      - job: TerraformInstall
+        displayName: 'Terraform Install'
+        steps:
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
+        - task: PowerShell@2
+          displayName: Terraform Install Validate
+          inputs:
+            targetType: 'inline'
+            script: |
+              pwd
+              dir
+              where terraform
+              terraform -v
+      - job: TerraformTask
+        displayName: 'Terraform Task'
+        steps:
+        - task: TerraformTask@5
+          displayName: Terrafirm Init
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: $(workDir)
+            backendServiceArm: $(azureConnection)
+            backendAzureRmResourceGroupName: 'AZ-RG'
+            backendAzureRmStorageAccountName: 'stgaccount1990'
+            backendAzureRmContainerName: 'stgcontainer'
+            backendAzureRmKey: 'infra.tfstate'
+        - task: TerraformTask@5
+          displayName: Terraform Fmt
+          inputs:
+            provider: 'azurerm'
+            command: 'custom'
+            workingDirectory: $(workDir)
+            outputTo: 'console'
+            customCommand: 'fmt'
+            environmentServiceNameAzureRM: $(azureConnection)
+        - task: TerraformTask@5
+          displayName: Terraform Validate
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+            workingDirectory: $(workDir)
+        - task: TerraformTask@5
+          displayName: Terraform Plan
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: $(workDir)
+            environmentServiceNameAzureRM: $(azureConnection)
+    
+  - stage: CodeScanning
+    jobs:
+      - job: TfsecandCheckovs
+        steps:
+        - task: tfsec@1
+          displayName: "Tfsec Scan"
+          inputs:
+            version: 'v1.26.0'
+            dir: '$(workDir)'
+        - task: PowerShell@2
+          displayName: "Run Checkov Scan"
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: |
+              Invoke-WebRequest -Uri "https://github.com/bridgecrewio/checkov/releases/download/3.2.495/checkov_windows_X86_64.zip" -OutFile "checkov.zip"
+              Expand-Archive -Path "checkov.zip" -DestinationPath "checkov" -Force
+              $exe = "checkov\dist\checkov.exe"
+              & $exe -d $(workDir) --soft-fail
+
+  - stage: ManualApprovalandApply
+    jobs:
+      - job: Approve
+        pool: server
+        steps:
+        - task: ManualValidation@1
+          displayName: Manual Approval
+          inputs:
+            notifyUsers: 'vjnariyal00@gmail.com'
+            instructions: 'Please check and approve this step'
+      - job: TerraformInit
+        steps:
+        - task: TerraformTask@5
+          displayName: Terrafirm Init
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: $(workDir)
+            backendServiceArm: $(azureConnection)
+            backendAzureRmResourceGroupName: 'AZ-RG'
+            backendAzureRmStorageAccountName: 'stgaccount1990'
+            backendAzureRmContainerName: 'stgcontainer'
+            backendAzureRmKey: 'infra.tfstate'
+        - task: TerraformTask@5
+          displayName: Terraform Apply
+          condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/Dev'
+            environmentServiceNameAzureRM: 'azureInfra'
+
