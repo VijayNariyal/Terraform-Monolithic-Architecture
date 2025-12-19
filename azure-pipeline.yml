@@ -118,6 +118,6 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'apply'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/Dev'
-            environmentServiceNameAzureRM: 'azureInfra'
+            workingDirectory: $(workDir)
+            environmentServiceNameAzureRM: $(azureConnection)
 
